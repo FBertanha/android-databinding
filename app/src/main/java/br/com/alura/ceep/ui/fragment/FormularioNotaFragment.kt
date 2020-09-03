@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import br.com.alura.ceep.R
+import br.com.alura.ceep.databinding.FormularioNotaBinding
 import br.com.alura.ceep.model.Nota
 import br.com.alura.ceep.repository.Falha
 import br.com.alura.ceep.repository.Sucesso
@@ -39,21 +38,15 @@ class FormularioNotaFragment : Fragment() {
     }
     private lateinit var notaEncontrada: Nota
     private var urlAtual: String = ""
-    private val campoTitulo: EditText by lazy {
-        formulario_nota_titulo
-    }
-    private val campoDescricao: EditText by lazy {
-        formulario_nota_descricao
-    }
-    private val campoFavorita: CheckBox by lazy {
-        formulario_nota_favorita
-    }
+
     private val campoImagem: ImageView by lazy {
         formulario_nota_imagem
     }
     private val fabAdicionaImagem: FloatingActionButton by lazy {
         formulario_nota_fab_adiciona_imagem
     }
+
+    private lateinit var viewBinding: FormularioNotaBinding;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +58,9 @@ class FormularioNotaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
-            R.layout.formulario_nota,
-            container,
-            false
-        )
+
+        viewBinding = FormularioNotaBinding.inflate(inflater, container, false)
+        return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,8 +75,9 @@ class FormularioNotaFragment : Fragment() {
         if (temIdValido()) {
             viewModel.buscaPorId(notaId).observe(this, Observer {
                 it?.let { notaEncontrada ->
+                    viewBinding.nota = notaEncontrada
                     inicializaNota(notaEncontrada)
-                    inicializaCampos()
+
                     appViewModel.temComponentes = appBarParaEdicao()
                 }
             })
@@ -129,15 +121,6 @@ class FormularioNotaFragment : Fragment() {
     private fun inicializaNota(notaEncontrada: Nota) {
         this.notaEncontrada = notaEncontrada
         urlAtual = this.notaEncontrada.imagemUrl
-    }
-
-    private fun inicializaCampos() {
-        if (::notaEncontrada.isInitialized) {
-            campoTitulo.setText(notaEncontrada.titulo)
-            campoDescricao.setText(notaEncontrada.descricao)
-            campoFavorita.isChecked = notaEncontrada.favorita
-            configuraImagem()
-        }
     }
 
     private fun configuraImagem() {

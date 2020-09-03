@@ -10,6 +10,6 @@ import br.com.alura.ceep.ui.extensions.carregaImagem
 
 
 @BindingAdapter("carregarImagemUrl")
-fun ImageView.carregarImagemUrl(url: String) {
-    carregaImagem(url)
+fun ImageView.carregarImagemUrl(url: String?) {
+    url?.let { carregaImagem(url)}
 }
