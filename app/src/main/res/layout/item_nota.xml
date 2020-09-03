@@ -3,6 +3,10 @@
 
     <data>
         <import type="android.view.View"/>
+
+        <variable
+            name="listener"
+            type="View.OnClickListener" />
         <variable
             name="nota"
             type="br.com.alura.ceep.model.Nota" />
@@ -15,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:cardCornerRadius="8dp"
+        android:onClick="@{ (view)-> listener.onClick(view)}"
         app:cardElevation="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
