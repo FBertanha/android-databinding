@@ -65,6 +65,7 @@
             android:visibility="@{nota.imagemUrl.empty ? View.GONE : View.VISIBLE}"
             app:carregarImagemUrl="@{nota.imagemUrl}"
             app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{solicitaImagem}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
@@ -73,9 +74,10 @@
             android:id="@+id/formulario_nota_fab_adiciona_imagem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{nota.imagemUrl.empty ? View.VISIBLE : View.GONE}"
+            android:onClick="@{solicitaImagem}"
             android:layout_margin="16dp"
             android:src="@drawable/ic_action_adiciona_foto"
+            android:visibility="@{nota.imagemUrl.empty ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -88,5 +90,9 @@
         <variable
             name="nota"
             type="br.com.alura.ceep.model.Nota" />
+
+        <variable
+            name="solicitaImagem"
+            type="android.view.View.OnClickListener" />
     </data>
 </layout>
